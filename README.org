@@ -1,0 +1,28 @@
+#+OPTIONS: toc:nil
+#+OPTIONS: ^:nil
+* Zig Golden Syrup
+[[https://ko-fi.com/Z8Z81D600C][https://ko-fi.com/img/githubbutton_sm.svg]]
+----------
+A Zig serialisation module for the [[https://github.com/ocapn/syrup][Syrup syntax]] of [[https://preserves.gitlab.io/preserves/][Preserves format]].
+
+High-level ~Writers~ exist for both Syrup and Preserves Binary.
+Only a low level ~Scanner~ for Syrup is currently implemented.
+A high-level ~SyrupReader~ is in the works.
+
+** Usage
+Add /golden_syrup/ as a dependency to your =build.zig.zon=:
+#+begin_src bash
+  zig fetch --save git+https://codeberg.org/MinervasRefuge/Zig-Golden-Syrup
+#+end_src
+
+Add /golden_syrup/ as a dependency to your =build.zig=:
+#+begin_src zig
+  const golden_syrup = b.dependency("golden_syrup", .{
+      .target = target,
+      .optimize = optimize,
+  });
+  exe.root_module.addImport("golden_syrup", golden_syrup.module("golden_syrup"));
+#+end_src
+
+----------
+BSD-3-Clause : Copyright © 2025 Abigale Raeck.
