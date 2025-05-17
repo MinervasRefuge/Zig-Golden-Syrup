@@ -8,7 +8,10 @@ const ComposeWriter = @import("compose_writer.zig").ComposeWriter;
 
 pub const PreservesBinaryWriter = ComposeWriter(PreservesBinaryWriterPartial);
 
-// pub const SyrupReader = @import("syrup_reader.zig").SyrupReader;
+// Not ready for use
+const syrup_reader = @import("syrup_reader.zig");
+const syrup_reader2 = @import("syrup_reader2.zig");
+
 pub const SyrupScanner = @import("SyrupScanner.zig");
 pub const SyrupWriter = ComposeWriter(SyrupWriterPartial);
 

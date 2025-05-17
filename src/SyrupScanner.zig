@@ -1,7 +1,7 @@
 // BSD-3-Clause : Copyright © 2025 Abigale Raeck.
 const std = @import("std");
 
-const Token = union(enum) {
+pub const Token = union(enum) {
     boolean: bool,
     float: []const u8,
     double: []const u8,
@@ -31,7 +31,7 @@ const Token = union(enum) {
     end_of_document, // todo
 };
 
-const Remainder = struct { remanding: usize, slice: []const u8 };
+pub const Remainder = struct { remanding: usize, slice: []const u8 };
 
 const State = enum {
     value,
@@ -64,11 +64,19 @@ pub fn feedInput(self: *@This(), input: []const u8) void {
     self.input = if (self.is_end_of_input) "" else input;
 }
 
+pub fn removeUnreadInput(self: *@This()) []const u8 {
+    const out = self.input[self.cursor..];
+    self.input = "";
+    self.cursor = 0;
+
+    return out;
+}
+
 pub fn endInput(self: *@This()) void {
     self.is_end_of_input = true;
 }
 
-const Error = error{ SyntaxError, UnexpectedEndOfInput, BufferUnderrun, Overflow } || error{Unimplemented};
+pub const Error = error{ SyntaxError, UnexpectedEndOfInput, BufferUnderrun, Overflow };
 
 pub fn next(self: *@This()) Error!Token {
     if (self.isAtTheEnd()) {
@@ -90,6 +98,8 @@ pub fn next(self: *@This()) Error!Token {
                     return .{ .boolean = false };
                 },
                 '0'...'9' => |n| {
+                    // if usize overflows should the assumtion be that it could only be a large int
+                    // should that be it's own state? that can only end in + or -
                     try self.accumulatePossiblePrefixLength(n);
                     self.cursor += 1;
                     self.state = .number;
